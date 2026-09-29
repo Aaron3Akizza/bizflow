@@ -3,5 +3,6 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  envPrefix: ["VITE_", "NEXT_PUBLIC_"],
+  // Only expose VITE_ prefixed env vars to the browser
+  envPrefix: "VITE_",
 });
