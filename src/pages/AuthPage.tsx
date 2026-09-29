@@ -27,7 +27,7 @@ function humanizeError(message: string): { text: string; isUnverified: boolean }
     return { text: "No account found with that email address. Please check or register.", isUnverified: false };
 
   if (lower.includes("network") || lower.includes("fetch"))
-    return { text: "Network error. Check your internet connection and try again.", isUnverified: false };
+    return { text: `Connection error. The request to Supabase failed. Raw error: ${message}`, isUnverified: false };
 
   return { text: message, isUnverified: false };
 }
@@ -358,7 +358,7 @@ export function AuthPage() {
         navigate("/app", { replace: true });
       }
     } catch (err: any) {
-      const { text } = humanizeError(err?.message || "Something went wrong.");
+      const { text } = humanizeError(err?.message || err?.toString() || "Unknown error");
       setError(text);
     } finally {
       setLoading(false);
