@@ -201,3 +201,10 @@ update public.profiles
 set    access_status = 'approved'
 where  id in (select distinct user_id from public.business_members)
   and  access_status = 'pending';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 10. Grant is_platform_admin() to authenticated users
+--     Was missing in phase8 — needed for checkIsPlatformAdmin() in the app
+-- ─────────────────────────────────────────────────────────────────────────────
+revoke all on function public.is_platform_admin() from public;
+grant execute on function public.is_platform_admin() to authenticated;

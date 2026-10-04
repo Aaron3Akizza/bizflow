@@ -45,12 +45,10 @@ export type PlatformStats = {
 export async function checkIsPlatformAdmin(): Promise<boolean> {
   if (!supabase) return false;
   try {
-    const { data, error } = await client()
-      .from("platform_admins")
-      .select("user_id")
-      .limit(1);
+    // Use the security-definer RPC — bypasses RLS so it works even for the first admin
+    const { data, error } = await client().rpc("is_platform_admin");
     if (error) return false;
-    return Array.isArray(data) && data.length > 0;
+    return data === true;
   } catch {
     return false;
   }
