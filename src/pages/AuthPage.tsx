@@ -320,7 +320,7 @@ export function AuthPage() {
           password: form.password,
           options: {
             data: { full_name: form.name, phone: form.phone },
-            // Point to /auth/callback so email confirmation works correctly
+            // emailRedirectTo is ignored when email confirmation is disabled
             emailRedirectTo: `${window.location.origin}/auth/callback`,
           },
         });
@@ -331,17 +331,18 @@ export function AuthPage() {
           return;
         }
 
-        // No session means email confirmation is required
-        if (!result.data.session) {
-          setMessage(
-            "Account created! Check your email inbox for a verification link. " +
-            "Also check your Spam / Junk folder — it sometimes lands there."
-          );
+        // Email confirmation is OFF — session is returned immediately
+        if (result.data.session) {
+          navigate("/app/setup", { replace: true });
           return;
         }
 
-        // Immediately confirmed (e.g. email confirmation disabled in Supabase settings)
-        navigate("/app/setup", { replace: true });
+        // Email confirmation is ON — tell user to check inbox
+        setMessage(
+          "Account created! Check your email inbox for a verification link. " +
+          "Also check your Spam / Junk folder."
+        );
+        return;
       } else {
         const result = await supabase.auth.signInWithPassword({
           email:    form.email.trim().toLowerCase(),
