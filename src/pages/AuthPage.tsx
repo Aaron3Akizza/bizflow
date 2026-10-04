@@ -1,6 +1,6 @@
 import { FormEvent, useState, useEffect, useRef } from "react";
 import { ArrowRight, Eye, EyeOff, TrendingUp, AlertTriangle, Clock, CheckCircle, XCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 
@@ -83,8 +83,11 @@ function PendingScreen({ username, onSignOut }: { username: string; onSignOut: (
 // ─── Main AuthPage ────────────────────────────────────────────────────────────
 export function AuthPage() {
   const navigate                          = useNavigate();
+  const location                          = useLocation();
   const { isDemo, configured, signOut }   = useAuth();
-  const [mode,       setMode]             = useState<"login" | "signup">("login");
+  // Default to signup only if coming from /signup or /get-started
+  const defaultMode = (location.pathname === "/signup" || location.pathname === "/get-started") ? "signup" : "login";
+  const [mode,       setMode]             = useState<"login" | "signup">(defaultMode);
   const [username,   setUsername]         = useState("");
   const [password,   setPassword]         = useState("");
   const [confirm,    setConfirm]          = useState("");
