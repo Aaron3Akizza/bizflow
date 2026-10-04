@@ -174,8 +174,8 @@ function Navbar() {
             <Button href="/login" variant="ghost" size="sm">
               Log in
             </Button>
-            <Button href="/signup" size="sm">
-              Start free trial
+            <Button href="/get-started" size="sm">
+              Free Trial
             </Button>
           </div>
 
@@ -211,8 +211,8 @@ function Navbar() {
               <Button href="/login" variant="secondary" size="sm" onClick={() => setOpen(false)}>
                 Log in
               </Button>
-              <Button href="/signup" size="sm" onClick={() => setOpen(false)}>
-                Start free trial
+            <Button href="/get-started" size="sm" onClick={() => setOpen(false)}>
+                Free Trial
               </Button>
             </div>
           </div>
@@ -389,7 +389,7 @@ function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Button href="/signup" size="lg">
+            <Button href="/get-started" size="lg">
               Start free trial <ArrowRight size={16} />
             </Button>
             <Button href="/login" size="lg" variant="secondary">
@@ -674,7 +674,7 @@ function FinalCTA() {
           Start managing your business with clarity today.
         </p>
         <Button
-          href="/signup"
+          href="/get-started"
           size="lg"
           variant="secondary"
           className="mt-8 border-0 hover:bg-gray-50"

@@ -116,11 +116,11 @@ function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, 
         </button>
         {isAdmin && (
           <button
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/owner")}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-amber-400 hover:bg-gray-800 hover:text-amber-300 w-full"
           >
             <ShieldCheck size={17} strokeWidth={2} />
-            Platform Admin
+            Owner Dashboard
           </button>
         )}
         <div className="flex items-center gap-2.5 px-3 py-2.5">

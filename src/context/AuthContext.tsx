@@ -23,6 +23,7 @@ type AuthContextValue = {
   loading: boolean;
   configured: boolean;
   isDemo: boolean;
+  accessStatus: string | null;   // 'pending' | 'approved' | 'suspended' | 'revoked' | null
   refreshBusiness: () => Promise<void>;
   createBusiness: (details: { name: string; phone: string; email: string; location: string; currency: string }) => Promise<void>;
   signOut: () => Promise<void>;
@@ -35,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [membership, setMembership] = useState<BusinessMembership | null>(null);
   const [loading, setLoading] = useState(true);
   const [membershipLoaded, setMembershipLoaded] = useState(false);
+  const [accessStatus, setAccessStatus] = useState<string | null>(null);
 
   // Demo mode = Supabase not configured
   const isDemo = !isSupabaseConfigured;
@@ -43,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isDemo) return;
     setMembership(DEMO_MEMBERSHIP as BusinessMembership);
+    setAccessStatus("approved");
     setMembershipLoaded(true);
     setLoading(false);
   }, [isDemo]);
@@ -74,10 +77,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!supabase) { setMembership(null); return; }
 
     const { data: { session: currentSession } } = await supabase.auth.getSession();
-    if (!currentSession?.user) { setMembership(null); return; }
+    if (!currentSession?.user) { setMembership(null); setAccessStatus(null); return; }
 
-    // Use limit(1) + array access instead of maybeSingle() to avoid
-    // "multiple rows" errors if a user somehow has duplicate memberships
+    // Fetch access status first — this gates everything else
+    const { data: statusData } = await supabase.rpc("get_access_status");
+    setAccessStatus(statusData ?? "pending");
+
+    // Only load membership if approved
+    if (statusData !== "approved") { setMembership(null); return; }
+
     const { data, error } = await supabase
       .from("business_members")
       .select("id, business_id, user_id, role, businesses(id, name, owner_id, phone, email, location, currency)")
@@ -152,6 +160,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loading: loading || !membershipLoaded,
       configured: isSupabaseConfigured,
       isDemo,
+      accessStatus: isDemo ? "approved" : accessStatus,
       refreshBusiness,
       createBusiness,
       signOut,

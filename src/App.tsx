@@ -1,11 +1,11 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { type ReactNode, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import BizFlowApp from "./pages/AppShell";
 import { AuthPage, SetupPage } from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
-import ResendConfirmationPage from "./pages/ResendConfirmationPage";
 import AdminPage from "./pages/AdminPage";
+import OwnerDashboard from "./pages/OwnerDashboard";
 import { useAuth, useBusiness } from "./context/AuthContext";
 import { useAdmin } from "./context/AdminContext";
 import { NewSalePage } from "./pages/SalesPage";
@@ -18,80 +18,140 @@ function LoadingScreen() {
   );
 }
 
+// ─── Protected Route ──────────────────────────────────────────────────────────
+// Three layers: session → accessStatus === 'approved' → membership
 function ProtectedRoute({ children, setup = false }: { children: ReactNode; setup?: boolean }) {
-  const { session, membership, loading, isDemo, refreshBusiness } = useAuth();
+  const { session, membership, loading, isDemo, refreshBusiness, accessStatus } = useAuth();
 
   useEffect(() => {
-    // If logged in but no membership found, try refreshing once more
-    // This handles the case where the business was just created
-    if (!loading && session && !membership && !setup && !isDemo) {
+    if (!loading && session && !membership && !setup && !isDemo && accessStatus === "approved") {
       refreshBusiness().catch(() => undefined);
     }
-  }, [loading, session, membership, setup, isDemo]);
+  }, [loading, session, membership, setup, isDemo, accessStatus]);
 
   if (loading) return <LoadingScreen />;
-  if (isDemo) return <>{children}</>;
+  if (isDemo)  return <>{children}</>;
   if (!session) return <Navigate to="/login" replace />;
+  if (accessStatus === null) return <LoadingScreen />;
+  if (accessStatus !== "approved") return <Navigate to="/pending" replace />;
   if (!setup && !membership) return <Navigate to="/app/setup" replace />;
   return <>{children}</>;
 }
 
+// ─── Public Route ─────────────────────────────────────────────────────────────
 function PublicRoute() {
-  const { session, membership, loading, isDemo } = useAuth();
+  const { session, membership, loading, isDemo, accessStatus } = useAuth();
   if (loading) return <LoadingScreen />;
-  // Real Supabase mode — redirect already-logged-in users
-  if (!isDemo && session) {
+  if (!isDemo && session && accessStatus === "approved") {
     return <Navigate to={membership ? "/app" : "/app/setup"} replace />;
   }
-  // Demo mode OR not logged in — show the auth page normally
   return <AuthPage />;
 }
 
+// ─── Pending Route ────────────────────────────────────────────────────────────
+function PendingRoute() {
+  const { session, loading, accessStatus, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  if (loading) return <LoadingScreen />;
+  if (!session) return <Navigate to="/login" replace />;
+  if (accessStatus === "approved") return <Navigate to="/app" replace />;
+
+  const username = (session.user?.user_metadata?.username as string | undefined) ?? "";
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
+      <div className="w-full max-w-md">
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
+            <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+              <polyline points="16 7 22 7 22 13" />
+            </svg>
+          </div>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+        </div>
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+          <div className="h-1 bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500" />
+          <div className="p-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-amber-50 border-2 border-amber-200 flex items-center justify-center mx-auto mb-5">
+              <svg className="w-7 h-7 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <h1 className="text-xl font-bold text-gray-900 mb-2">Awaiting Approval</h1>
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              {username && <><strong className="text-gray-900">{username}</strong>, your </>}
+              account is registered and waiting for the BizFlow administrator to grant access.
+            </p>
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left mb-6">
+              <p className="text-xs font-semibold text-amber-800 mb-2">What happens next?</p>
+              <ul className="text-xs text-amber-700 space-y-1.5">
+                <li>• The admin will review your registration</li>
+                <li>• Once approved, log in normally to access BizFlow</li>
+                <li>• Come back and try logging in after you are notified</li>
+              </ul>
+            </div>
+            <button
+              onClick={async () => { await signOut(); navigate("/login", { replace: true }); }}
+              className="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Other routes ─────────────────────────────────────────────────────────────
 function NewSaleRoute() {
   const { business } = useBusiness();
   if (!business) return <LoadingScreen />;
   return <NewSalePage businessId={business.id} />;
 }
 
-/**
- * AdminRoute — only platform admins can access this.
- * Non-admins are redirected to /login (unauthenticated) or /app (authenticated non-admin).
- * The admin check is done against the Supabase platform_admins table — cannot be bypassed.
- */
 function AdminRoute({ children }: { children: ReactNode }) {
   const { session, loading: authLoading } = useAuth();
   const { isAdmin, adminLoading }          = useAdmin();
-
   if (authLoading || adminLoading) return <LoadingScreen />;
-  if (!session)  return <Navigate to="/login" replace />;
-  if (!isAdmin)  return <Navigate to="/app"   replace />;
+  if (!session) return <Navigate to="/login" replace />;
+  if (!isAdmin) return <Navigate to="/app"   replace />;
   return <>{children}</>;
 }
 
+// ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing page — always public, always shows first */}
-        <Route path="/" element={<LandingPage />} />
+        {/* Landing */}
+        <Route path="/"            element={<LandingPage />} />
 
-        {/* Auth routes */}
-        <Route path="/login"  element={<PublicRoute />} />
-        <Route path="/signup" element={<PublicRoute />} />
+        {/* Auth */}
+        <Route path="/login"        element={<PublicRoute />} />
+        <Route path="/signup"       element={<PublicRoute />} />
+        <Route path="/get-started"  element={<PublicRoute />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
 
-        {/* Auth callback — Supabase redirects here after email confirmation / password reset */}
-        <Route path="/auth/callback"       element={<AuthCallbackPage />} />
-        <Route path="/resend-confirmation" element={<ResendConfirmationPage />} />
+        {/* Pending approval */}
+        <Route path="/pending" element={<PendingRoute />} />
 
-        {/* Admin — platform administrators only */}
+        {/* Owner approval dashboard — platform admins only */}
+        <Route path="/owner" element={<AdminRoute><OwnerDashboard /></AdminRoute>} />
+
+        {/* Admin — business metrics */}
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
-        {/* App routes — protected */}
+        {/* App — requires session + approved + membership */}
         <Route path="/app/setup"     element={<ProtectedRoute setup><SetupPage /></ProtectedRoute>} />
         <Route path="/app/sales/new" element={<ProtectedRoute><NewSaleRoute /></ProtectedRoute>} />
         <Route path="/app/*"         element={<ProtectedRoute><BizFlowApp /></ProtectedRoute>} />
 
-        {/* Catch-all → landing page */}
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
