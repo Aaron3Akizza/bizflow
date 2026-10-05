@@ -68,7 +68,7 @@ function DemoBanner() {
    SIDEBAR
    ========================================================= */
 
-function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, role, onSignOut, isDemo }) {
+function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, role, onSignOut, isDemo, isAdmin }) {
   const initials = (user?.user_metadata?.full_name || user?.email || "U")
     .split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 
