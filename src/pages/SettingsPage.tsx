@@ -315,8 +315,12 @@ const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
 
 export default function SettingsPage({ role }: { role: string | null }) {
   const [tab, setTab] = useState<Tab>("business");
-  const isOwner = role === "owner";
+  const isOwner = role === "owner" || role === "manager";
   const { isDemo } = useAuth();
+  const { business } = useBusiness();
+
+  // Check if business is still using the auto-generated placeholder name
+  const isPlaceholder = business?.name?.endsWith("'s Business") || false;
 
   return (
     <div className="p-5 lg:p-8 flex flex-col gap-5">
@@ -324,6 +328,19 @@ export default function SettingsPage({ role }: { role: string | null }) {
         <h2 className="text-lg font-bold text-gray-900">Settings</h2>
         <p className="text-sm text-gray-500">Manage your business and account settings</p>
       </div>
+
+      {/* Prompt to complete setup if using placeholder name */}
+      {isPlaceholder && (
+        <div className="rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 flex items-start gap-3">
+          <div className="text-amber-500 mt-0.5">⚠</div>
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Complete your business setup</p>
+            <p className="text-xs text-amber-700 mt-0.5">
+              Your business is using a placeholder name. Update it below to personalise your BizFlow account.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="flex gap-1 bg-gray-50 border border-gray-100 rounded-xl p-1 w-fit">
         {TABS.filter((t) => t.id !== "business" || isOwner).map(({ id, label }) => (
@@ -334,7 +351,7 @@ export default function SettingsPage({ role }: { role: string | null }) {
               tab === id ? "bg-white text-green-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            {label}
+            {label}{id === "business" && isPlaceholder ? " ●" : ""}
           </button>
         ))}
       </div>

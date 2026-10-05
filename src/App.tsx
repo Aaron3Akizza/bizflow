@@ -2,10 +2,9 @@ import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-route
 import { type ReactNode, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import BizFlowApp from "./pages/AppShell";
-import { AuthPage, SetupPage } from "./pages/AuthPage";
+import { AuthPage } from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import AdminPage from "./pages/AdminPage";
-import OwnerDashboard from "./pages/OwnerDashboard";
 import { useAuth, useBusiness } from "./context/AuthContext";
 import { useAdmin } from "./context/AdminContext";
 import { NewSalePage } from "./pages/SalesPage";
@@ -19,13 +18,19 @@ function LoadingScreen() {
 }
 
 // ─── Protected Route ──────────────────────────────────────────────────────────
-// Three layers: session → accessStatus === 'approved' → membership
 function ProtectedRoute({ children, setup = false }: { children: ReactNode; setup?: boolean }) {
-  const { session, membership, loading, isDemo, refreshBusiness, accessStatus } = useAuth();
+  const { session, membership, loading, isDemo, refreshBusiness, accessStatus, createBusiness, user } = useAuth();
 
   useEffect(() => {
     if (!loading && session && !membership && !setup && !isDemo && accessStatus === "approved") {
-      refreshBusiness().catch(() => undefined);
+      // Auto-create a placeholder business so the dashboard loads immediately
+      const username = (user?.user_metadata?.username as string | undefined) ?? "Business";
+      createBusiness({
+        name: `${username}'s Business`,
+        phone: "", email: "", location: "", currency: "UGX",
+      })
+        .catch(() => undefined)
+        .finally(() => refreshBusiness().catch(() => undefined));
     }
   }, [loading, session, membership, setup, isDemo, accessStatus]);
 
@@ -34,16 +39,17 @@ function ProtectedRoute({ children, setup = false }: { children: ReactNode; setu
   if (!session) return <Navigate to="/login" replace />;
   if (accessStatus === null) return <LoadingScreen />;
   if (accessStatus !== "approved") return <Navigate to="/pending" replace />;
-  if (!setup && !membership) return <Navigate to="/app/setup" replace />;
+  // While auto-creating business show loading instead of redirecting to setup
+  if (!setup && !membership) return <LoadingScreen />;
   return <>{children}</>;
 }
 
 // ─── Public Route ─────────────────────────────────────────────────────────────
 function PublicRoute() {
-  const { session, membership, loading, isDemo, accessStatus } = useAuth();
+  const { session, loading, isDemo, accessStatus } = useAuth();
   if (loading) return <LoadingScreen />;
   if (!isDemo && session && accessStatus === "approved") {
-    return <Navigate to={membership ? "/app" : "/app/setup"} replace />;
+    return <Navigate to="/app" replace />;
   }
   return <AuthPage />;
 }
@@ -140,14 +146,13 @@ export default function App() {
         {/* Pending approval */}
         <Route path="/pending" element={<PendingRoute />} />
 
-        {/* Owner approval dashboard — platform admins only */}
-        <Route path="/owner" element={<AdminRoute><OwnerDashboard /></AdminRoute>} />
+        {/* Owner approval dashboard — merged into /admin */}
 
-        {/* Admin — business metrics */}
+        {/* Admin — combined approvals + businesses + stats */}
         <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+        <Route path="/owner" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
         {/* App — requires session + approved + membership */}
-        <Route path="/app/setup"     element={<ProtectedRoute setup><SetupPage /></ProtectedRoute>} />
         <Route path="/app/sales/new" element={<ProtectedRoute><NewSaleRoute /></ProtectedRoute>} />
         <Route path="/app/*"         element={<ProtectedRoute><BizFlowApp /></ProtectedRoute>} />
 
