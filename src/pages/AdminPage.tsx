@@ -244,10 +244,16 @@ function ApprovalsTab() {
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-2 flex-wrap">
                         {u.access_status === "pending" && (
-                          <button disabled={acting === u.user_id} onClick={() => act(u.user_id, "approved")}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-green-700 disabled:opacity-50">
-                            <UserCheck size={13} /> {acting === u.user_id ? "…" : "Grant Access"}
-                          </button>
+                          <>
+                            <button disabled={acting === u.user_id} onClick={() => act(u.user_id, "approved")}
+                              className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-green-700 disabled:opacity-50">
+                              <UserCheck size={13} /> {acting === u.user_id ? "…" : "Grant Access"}
+                            </button>
+                            <button disabled={acting === u.user_id} onClick={() => act(u.user_id, "revoked")}
+                              className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 text-white px-3 py-1.5 text-xs font-semibold hover:bg-red-700 disabled:opacity-50">
+                              <XCircle size={13} /> {acting === u.user_id ? "…" : "Deny Access"}
+                            </button>
+                          </>
                         )}
                         {u.access_status === "approved" && (
                           <button disabled={acting === u.user_id} onClick={() => act(u.user_id, "suspended")}
