@@ -367,15 +367,6 @@ function DashboardPreview() {
     </div>
   );
 }
-                <p className="text-sm font-bold text-gray-900">UGX 14.2M</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ---------------------------------- */
 /* Hero                               */
