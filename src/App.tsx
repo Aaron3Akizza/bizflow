@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode } from "react";
 import LandingPage from "./pages/LandingPage";
 import BizFlowApp from "./pages/AppShell";
 import { AuthPage } from "./pages/AuthPage";
@@ -29,44 +29,15 @@ function LoadingScreen({ message = "Loading BizFlow..." }: { message?: string })
 
 // ─── ProtectedRoute — for Business Owners ────────────────────────────────────
 function ProtectedRoute({ children }: { children: ReactNode }) {
-  const { session, membership, loading, isDemo, refreshBusiness, accessStatus, createBusiness, user } = useAuth();
-  const [creating, setCreating] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-
-  useEffect(() => {
-    if (!loading && !isDemo && session && accessStatus === "approved" && !membership && !creating && attempts < 3) {
-      setCreating(true);
-      const username = (user?.user_metadata?.username as string | undefined) ?? "Owner";
-      createBusiness({
-        name:     `${username}'s Business`,
-        phone:    "",
-        email:    "",
-        location: "Kampala, Uganda",
-        currency: "UGX",
-      })
-        .catch(() => undefined) // ignore errors — business may already exist
-        .finally(() => {
-          refreshBusiness()
-            .catch(() => undefined)
-            .finally(() => {
-              setCreating(false);
-              setAttempts(a => a + 1);
-            });
-        });
-    }
-  }, [loading, isDemo, session, accessStatus, membership, creating]);
+  const { session, membership, loading, isDemo, accessStatus } = useAuth();
 
   if (loading) return <LoadingScreen />;
   if (isDemo)  return <>{children}</>;
   if (!session) return <Navigate to="/bo-login" replace />;
   if (accessStatus === null) return <LoadingScreen message="Checking your account…" />;
   if (accessStatus !== "approved") return <Navigate to="/pending" replace />;
-
-  // Still creating — show loading (max 3 attempts then give up and show app anyway)
-  if (!membership && attempts < 3) {
-    return <LoadingScreen message="Setting up your workspace…" />;
-  }
-
+  // refreshBusiness handles auto-creating the business — show loading until done
+  if (!membership) return <LoadingScreen message="Setting up your workspace…" />;
   return <>{children}</>;
 }
 

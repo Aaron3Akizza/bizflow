@@ -97,11 +97,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
 
     const row = data?.[0] ?? null;
-    if (!row) { setMembership(null); return; }
+
+    // No business yet — auto-create one for this approved user
+    if (!row) {
+      try {
+        const username = currentSession.user.user_metadata?.username as string | undefined ?? "Owner";
+        await supabase.rpc("create_business_for_current_user", {
+          business_name:     `${username}'s Business`,
+          business_phone:    null,
+          business_email:    null,
+          business_location: "Kampala, Uganda",
+          business_currency: "UGX",
+        });
+        // Re-fetch after creating
+        const { data: data2 } = await supabase
+          .from("business_members")
+          .select("id, business_id, user_id, role, businesses(id, name, owner_id, phone, email, location, currency)")
+          .eq("user_id", currentSession.user.id)
+          .eq("is_active", true)
+          .order("created_at", { ascending: true })
+          .limit(1);
+        const row2 = data2?.[0] ?? null;
+        if (!row2) { setMembership(null); return; }
+        const business2 = Array.isArray(row2.businesses) ? row2.businesses[0] : row2.businesses;
+        if (business2) setMembership({ ...row2, business: business2 } as BusinessMembership);
+      } catch {
+        // Business creation failed (may already exist) — just leave membership null
+        setMembership(null);
+      }
+      return;
+    }
 
     const business = Array.isArray(row.businesses) ? row.businesses[0] : row.businesses;
     if (!business) { setMembership(null); return; }
-
     setMembership({ ...row, business } as BusinessMembership);
   };
 
