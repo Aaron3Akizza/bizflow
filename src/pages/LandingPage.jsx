@@ -171,7 +171,7 @@ function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            <Button href="/login" variant="ghost" size="sm">
+            <Button href="/bo-login" variant="ghost" size="sm">
               Log in
             </Button>
             <Button href="/get-started" size="sm">
@@ -208,7 +208,7 @@ function Navbar() {
               );
             })}
             <div className="flex flex-col gap-2 pt-4">
-              <Button href="/login" variant="secondary" size="sm" onClick={() => setOpen(false)}>
+              <Button href="/bo-login" variant="secondary" size="sm" onClick={() => setOpen(false)}>
                 Log in
               </Button>
             <Button href="/get-started" size="sm" onClick={() => setOpen(false)}>
