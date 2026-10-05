@@ -85,11 +85,11 @@ function StatCard({ label, value, trend, trendLabel, tone = "neutral" }) {
     neutral: "text-gray-400",
   };
   return (
-    <div className="rounded-xl bg-white border border-gray-100 p-4">
-      <p className="text-xs font-medium text-gray-500 mb-1.5">{label}</p>
-      <p className="text-lg font-bold text-gray-900 mb-1">{value}</p>
+    <div className="rounded-xl bg-white border border-gray-100 p-3.5 overflow-hidden">
+      <p className="text-[10px] font-medium text-gray-500 mb-1.5 truncate">{label}</p>
+      <p className="text-sm font-bold text-gray-900 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{value}</p>
       {trend && (
-        <p className={`text-xs font-medium ${toneStyles[tone]}`}>{trend} {trendLabel}</p>
+        <p className={`text-[10px] font-medium ${toneStyles[tone]} truncate`}>{trend} {trendLabel}</p>
       )}
     </div>
   );
@@ -253,7 +253,7 @@ function DashboardPreview() {
     <div className="rounded-2xl bg-white border border-gray-200 shadow-[0_20px_50px_rgba(17,24,39,0.08)] overflow-hidden">
       <div className="flex">
         {/* Sidebar */}
-        <div className="hidden sm:flex flex-col w-40 bg-gray-900 py-4 shrink-0">
+        <div className="hidden sm:flex flex-col w-48 bg-gray-900 py-4 shrink-0">
           <div className="flex items-center gap-2 px-4 pb-4 mb-2 border-b border-gray-700">
             <div className="h-6 w-6 rounded-md bg-green-600 flex items-center justify-center">
               <TrendingUp className="text-white" size={13} strokeWidth={2.5} />
@@ -283,7 +283,7 @@ function DashboardPreview() {
           <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
             <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5 w-40 sm:w-52">
               <Search size={13} className="text-gray-400" />
-              <span className="text-xs text-gray-400">Search</span>
+              <span className="text-xs text-gray-400">Search products, customers...</span>
             </div>
             <div className="flex items-center gap-3">
               <Bell size={16} className="text-gray-400" />
@@ -354,10 +354,19 @@ function DashboardPreview() {
               </div>
               <div className="rounded-xl border border-gray-100 p-3.5">
                 <p className="text-[10px] text-gray-400 font-medium mb-1">Today's sales</p>
-                <p className="text-sm font-bold text-green-600">UGX 1,850,000</p>
+                <p className="text-sm font-bold text-green-600 whitespace-nowrap">UGX 1,850,000</p>
               </div>
               <div className="rounded-xl border border-gray-100 p-3.5">
                 <p className="text-[10px] text-gray-400 font-medium mb-1">Monthly projection</p>
+                <p className="text-sm font-bold text-gray-900 whitespace-nowrap">UGX 14.2M</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
                 <p className="text-sm font-bold text-gray-900">UGX 14.2M</p>
               </div>
             </div>
