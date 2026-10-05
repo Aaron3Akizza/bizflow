@@ -28,15 +28,13 @@ function LoadingScreen({ message = "Loading BizFlow..." }: { message?: string })
 }
 
 // ─── ProtectedRoute — for Business Owners ────────────────────────────────────
-// Requires: session + accessStatus === 'approved' + membership
-// If approved but no business yet → creates one automatically
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { session, membership, loading, isDemo, refreshBusiness, accessStatus, createBusiness, user } = useAuth();
   const [creating, setCreating] = useState(false);
-  const [createError, setCreateError] = useState("");
+  const [attempts, setAttempts] = useState(0);
 
   useEffect(() => {
-    if (!loading && !isDemo && session && accessStatus === "approved" && !membership && !creating) {
+    if (!loading && !isDemo && session && accessStatus === "approved" && !membership && !creating && attempts < 3) {
       setCreating(true);
       const username = (user?.user_metadata?.username as string | undefined) ?? "Owner";
       createBusiness({
@@ -46,16 +44,15 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
         location: "Kampala, Uganda",
         currency: "UGX",
       })
-        .then(() => refreshBusiness())
-        .catch((err) => {
-          // If business already exists, just refresh
-          refreshBusiness().catch(() => undefined);
-          if (!err?.message?.toLowerCase().includes("duplicate") &&
-              !err?.message?.toLowerCase().includes("unique")) {
-            setCreateError(err?.message || "");
-          }
-        })
-        .finally(() => setCreating(false));
+        .catch(() => undefined) // ignore errors — business may already exist
+        .finally(() => {
+          refreshBusiness()
+            .catch(() => undefined)
+            .finally(() => {
+              setCreating(false);
+              setAttempts(a => a + 1);
+            });
+        });
     }
   }, [loading, isDemo, session, accessStatus, membership, creating]);
 
@@ -65,15 +62,9 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   if (accessStatus === null) return <LoadingScreen message="Checking your account…" />;
   if (accessStatus !== "approved") return <Navigate to="/pending" replace />;
 
-  // Show creating message while auto-setting up business
-  if (!membership) {
-    return (
-      <LoadingScreen message={
-        createError
-          ? `Setup issue: ${createError} — please contact support.`
-          : "Setting up your workspace…"
-      } />
-    );
+  // Still creating — show loading (max 3 attempts then give up and show app anyway)
+  if (!membership && attempts < 3) {
+    return <LoadingScreen message="Setting up your workspace…" />;
   }
 
   return <>{children}</>;

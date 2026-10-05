@@ -208,3 +208,18 @@ where  id in (select distinct user_id from public.business_members)
 -- ─────────────────────────────────────────────────────────────────────────────
 revoke all on function public.is_platform_admin() from public;
 grant execute on function public.is_platform_admin() to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 11. FIX: Restore original business_members read policy
+--     The is_approved() check caused a deadlock — approved users could not
+--     read their own business_members row after createBusiness, because
+--     the SELECT went through RLS before the profile update was visible.
+--     Access is already enforced by the app (ProtectedRoute + get_access_status).
+-- ─────────────────────────────────────────────────────────────────────────────
+drop policy if exists "users can read their memberships" on public.business_members;
+create policy "users can read their memberships" on public.business_members
+  for select using (
+    user_id = auth.uid()
+    or public.is_business_member(business_id)
+    or public.is_platform_admin()
+  );
