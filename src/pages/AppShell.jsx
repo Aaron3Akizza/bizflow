@@ -219,13 +219,23 @@ export default function BizFlowApp() {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/login", { replace: true });
+    navigate("/bo-login", { replace: true });
   };
 
   if (!business) {
+    // Still loading — wait for AuthContext to finish refreshBusiness
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center text-sm text-gray-500">
-        Loading your workspace…
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center mx-auto mb-4">
+            <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+              <polyline points="16 7 22 7 22 13" />
+            </svg>
+          </div>
+          <p className="text-sm text-gray-500">Loading your workspace…</p>
+          <p className="text-xs text-gray-400 mt-1">This may take a moment on first login.</p>
+        </div>
       </div>
     );
   }
