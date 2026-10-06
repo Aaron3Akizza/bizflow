@@ -235,11 +235,13 @@ export function AuthPage() {
         return;
       }
 
-      // Step 3: check access status
+      // Step 3: check access status, then check if platform admin
       const { data: statusData } = await supabase.rpc("get_access_status");
 
       if (statusData === "approved") {
-        navigate("/app", { replace: true });
+        // Check if this user is a platform admin — if so, send them to /admin
+        const { data: isAdminData } = await supabase.rpc("is_platform_admin");
+        navigate(isAdminData ? "/admin" : "/app", { replace: true });
       } else if (statusData === "suspended") {
         setError("Your account has been suspended. Please contact the BizFlow administrator.");
         await supabase.auth.signOut();

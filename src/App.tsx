@@ -44,8 +44,12 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
 // ─── PublicRoute — redirects logged-in approved users away from auth pages ───
 function PublicRoute() {
   const { session, loading, isDemo, accessStatus } = useAuth();
-  if (loading) return <LoadingScreen />;
-  if (!isDemo && session && accessStatus === "approved") return <Navigate to="/app" replace />;
+  const { isAdmin, adminLoading } = useAdmin();
+  if (loading || adminLoading) return <LoadingScreen />;
+  if (!isDemo && session && accessStatus === "approved") {
+    // Send admin back to admin dashboard, BO back to app
+    return <Navigate to={isAdmin ? "/admin" : "/app"} replace />;
+  }
   if (!isDemo && session && accessStatus && accessStatus !== "approved") return <Navigate to="/pending" replace />;
   return <AuthPage />;
 }
