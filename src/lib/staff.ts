@@ -47,15 +47,47 @@ export async function reactivateMember(memberId: string): Promise<void> {
   if (error) throw error;
 }
 
-export async function inviteStaff(businessId: string, email: string, role: string): Promise<void> {
+/**
+ * Add a staff member to a business by their username.
+ * The user must already have an approved BizFlow account.
+ * Returns the display name of the added user on success.
+ */
+export async function addStaffByUsername(businessId: string, username: string, role: string): Promise<string> {
   if (isDemo()) {
-    DEMO_STAFF.push({ id: "mem-" + Date.now(), user_id: "demo-" + Date.now(), role, is_active: true, created_at: new Date().toISOString(), full_name: email.split("@")[0], email, phone: null });
-    return;
+    DEMO_STAFF.push({ id: "mem-" + Date.now(), user_id: "demo-" + Date.now(), role, is_active: true, created_at: new Date().toISOString(), full_name: username, email: "", phone: null });
+    return username;
   }
   const db = client();
-  const { error } = await db.auth.signInWithOtp({
-    email,
-    options: { emailRedirectTo: `${window.location.origin}/app/setup`, data: { invited_business_id: businessId, invited_role: role } },
+
+  // Resolve the username to a user_id via the profiles table
+  const { data: profile, error: profileErr } = await db
+    .from("profiles")
+    .select("id, full_name, username, access_status")
+    .eq("username", username.trim().toLowerCase())
+    .maybeSingle();
+
+  if (profileErr) throw profileErr;
+  if (!profile) throw new Error("No BizFlow account found for that username. Make sure they've registered first.");
+  if (profile.access_status !== "approved") throw new Error(`That account is not yet approved (status: ${profile.access_status}). The admin must approve them first.`);
+
+  // Check they're not already a member
+  const { data: existing } = await db
+    .from("business_members")
+    .select("id")
+    .eq("business_id", businessId)
+    .eq("user_id", profile.id)
+    .maybeSingle();
+
+  if (existing) throw new Error("That user is already a member of this business.");
+
+  // Add them
+  const { error: insertErr } = await db.from("business_members").insert({
+    business_id: businessId,
+    user_id: profile.id,
+    role,
+    is_active: true,
   });
-  if (error) throw error;
+  if (insertErr) throw insertErr;
+
+  return profile.full_name ?? username;
 }

@@ -12,7 +12,7 @@ import {
 } from "../lib/customers";
 import { useMoney, useCurrency } from "../lib/format";
 
-type Props = { businessId: string; role: string | null };
+type Props = { businessId: string; role: string | null; searchQuery?: string };
 
 function Badge({ tone = "neutral", children }: { tone?: string; children: React.ReactNode }) {
   const tones: Record<string, string> = {
@@ -300,14 +300,17 @@ function CustomerDetail({
   );
 }
 
-export default function CustomersPage({ businessId }: Props) {
+export default function CustomersPage({ businessId, searchQuery = "" }: Props) {
   const money = useMoney();
   const [customers, setCustomers] = useState<CustomerProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchQuery);
   const [filter, setFilter] = useState<"all" | "owing">("all");
   const [selected, setSelected] = useState<CustomerProfile | null>(null);
+
+  // Sync topbar search into local query state
+  useEffect(() => { setQuery(searchQuery); }, [searchQuery]);
 
   const load = async () => {
     setLoading(true);

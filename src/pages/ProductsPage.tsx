@@ -11,7 +11,7 @@ import {
 import { useMoney } from "../lib/format";
 import { getStockMovements, type StockMovement } from "../lib/dashboard";
 
-type Props = { businessId: string; role: string | null };
+type Props = { businessId: string; role: string | null; searchQuery?: string };
 const canManage = (role: string | null) =>
   role === "owner" || role === "manager" || role === "inventory";
 
@@ -945,15 +945,18 @@ function Detail({
    MAIN PRODUCTS PAGE
    ========================================================= */
 
-export default function ProductsPage({ businessId, role }: Props) {
+export default function ProductsPage({ businessId, role, searchQuery = "" }: Props) {
   const money = useMoney();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchQuery);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [modal, setModal] = useState<"add" | "edit" | null>(null);
   const [selected, setSelected] = useState<Product | null>(null);
+
+  // Sync topbar search into local query state
+  useEffect(() => { setQuery(searchQuery); }, [searchQuery]);
 
   // Load all products from the database
   const load = useCallback(async () => {

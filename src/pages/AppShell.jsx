@@ -68,7 +68,7 @@ function DemoBanner() {
    SIDEBAR
    ========================================================= */
 
-function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, role, onSignOut, isDemo, isAdmin }) {
+function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, role, onSignOut, isDemo, isAdmin, onHelpClick, onAdminClick }) {
   const initials = (user?.user_metadata?.full_name || user?.email || "U")
     .split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 
@@ -110,13 +110,16 @@ function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, 
 
       {/* Footer */}
       <div className="px-3 py-4 border-t border-gray-800 flex flex-col gap-1 shrink-0">
-        <button className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white w-full">
+        <button
+          onClick={onHelpClick}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white w-full"
+        >
           <HelpCircle size={17} strokeWidth={2} />
           Help / support
         </button>
         {isAdmin && (
           <button
-            onClick={() => navigate("/owner")}
+            onClick={() => onAdminClick()}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-amber-400 hover:bg-gray-800 hover:text-amber-300 w-full"
           >
             <ShieldCheck size={17} strokeWidth={2} />
@@ -173,9 +176,16 @@ function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, 
    TOPBAR
    ========================================================= */
 
-function TopBar({ title, onOpenMobile, user }) {
+function TopBar({ title, onOpenMobile, user, searchQuery, onSearchChange, activeModule, onBellClick, bellDot }) {
   const initials = (user?.user_metadata?.full_name || user?.email || "D")
     .split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
+
+  // Modules that support search
+  const searchable = ["products", "customers", "sales"];
+  const placeholder = activeModule === "products"  ? "Search products…"
+                    : activeModule === "customers" ? "Search customers…"
+                    : activeModule === "sales"     ? "Search sales…"
+                    : "Search…";
 
   return (
     <div className="flex items-center justify-between h-16 px-5 lg:px-8 border-b border-gray-100 bg-white sticky top-0 z-30">
@@ -186,13 +196,103 @@ function TopBar({ title, onOpenMobile, user }) {
         <h1 className="text-base font-bold text-gray-900">{title}</h1>
       </div>
       <div className="flex items-center gap-4">
-        <div className="hidden sm:flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5 w-56 border border-gray-100">
-          <Search size={14} className="text-gray-400" />
-          <span className="text-xs text-gray-400">Search products, customers...</span>
-        </div>
-        <Bell size={18} className="text-gray-400" aria-label="Notifications" />
+        {searchable.includes(activeModule) ? (
+          <div className="hidden sm:flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5 w-56 border border-gray-200 focus-within:border-green-500 focus-within:ring-1 focus-within:ring-green-500 transition-colors">
+            <Search size={14} className="text-gray-400 shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder={placeholder}
+              className="bg-transparent text-xs text-gray-700 placeholder-gray-400 focus:outline-none w-full"
+              aria-label="Search"
+            />
+            {searchQuery && (
+              <button onClick={() => onSearchChange("")} className="text-gray-400 hover:text-gray-600" aria-label="Clear search">
+                <X size={12} />
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="hidden sm:flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5 w-56 border border-gray-100 opacity-50 cursor-not-allowed select-none">
+            <Search size={14} className="text-gray-400" />
+            <span className="text-xs text-gray-400">Search not available here</span>
+          </div>
+        )}
+        <button
+          onClick={onBellClick}
+          className="relative text-gray-400 hover:text-gray-700 transition-colors"
+          aria-label="Notifications"
+        >
+          <Bell size={18} />
+          {bellDot && (
+            <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-red-500" />
+          )}
+        </button>
         <div className="h-8 w-8 rounded-full bg-green-50 border border-green-200 flex items-center justify-center text-xs font-bold text-green-600" aria-label="Account">
           {initials}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   HELP MODAL
+   ========================================================= */
+
+function HelpModal({ onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl w-full max-w-sm p-6 shadow-xl">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-bold text-gray-900">Help & Support</h2>
+          <button onClick={onClose} aria-label="Close"><X size={18} className="text-gray-400" /></button>
+        </div>
+        <div className="flex flex-col gap-3 text-sm text-gray-600">
+          <p>Need help using BizFlow? Here's how to get support:</p>
+          <div className="bg-green-50 border border-green-100 rounded-xl p-4 flex flex-col gap-2">
+            <p className="font-semibold text-gray-800">Contact your admin</p>
+            <p className="text-xs text-gray-500">Reach out to your BizFlow administrator for account issues, password resets, or access problems.</p>
+          </div>
+          <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 flex flex-col gap-2">
+            <p className="font-semibold text-gray-800">Quick tips</p>
+            <ul className="text-xs text-gray-500 space-y-1.5">
+              <li>• Use the sidebar to navigate between modules</li>
+              <li>• Sales and Products support real-time search in the topbar</li>
+              <li>• Reports can be exported to CSV</li>
+              <li>• Staff members must register at /get-started first</li>
+            </ul>
+          </div>
+        </div>
+        <button onClick={onClose} className="w-full mt-5 rounded-lg bg-green-600 text-white px-4 py-2.5 text-sm font-medium hover:bg-green-700">
+          Got it
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   NOTIFICATIONS PANEL
+   ========================================================= */
+
+function NotificationsPanel({ onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-end p-4 pt-16" onClick={onClose}>
+      <div
+        className="relative bg-white rounded-2xl w-72 shadow-xl border border-gray-100 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+          <h3 className="text-sm font-bold text-gray-900">Notifications</h3>
+          <button onClick={onClose} aria-label="Close"><X size={16} className="text-gray-400" /></button>
+        </div>
+        <div className="px-4 py-8 text-center">
+          <Bell size={24} className="text-gray-300 mx-auto mb-2" />
+          <p className="text-sm text-gray-500 font-medium">All caught up!</p>
+          <p className="text-xs text-gray-400 mt-1">No new notifications.</p>
         </div>
       </div>
     </div>
@@ -205,6 +305,9 @@ function TopBar({ title, onOpenMobile, user }) {
 
 export default function BizFlowApp() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { user, signOut, isDemo } = useAuth();
   const { business, role } = useBusiness();
   const { isAdmin } = useAdmin();
@@ -213,7 +316,9 @@ export default function BizFlowApp() {
 
   const activeModule = location.pathname.split("/")[2] || "dashboard";
 
+  // Clear search when switching modules
   const selectModule = (module) => {
+    setSearchQuery("");
     navigate(module === "dashboard" ? "/app" : `/app/${module}`);
   };
 
@@ -223,7 +328,6 @@ export default function BizFlowApp() {
   };
 
   if (!business) {
-    // Still loading — wait for AuthContext to finish refreshBusiness
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -255,23 +359,32 @@ export default function BizFlowApp() {
           onSignOut={handleSignOut}
           isDemo={isDemo}
           isAdmin={isAdmin}
+          onHelpClick={() => setShowHelp(true)}
+          onAdminClick={() => navigate("/owner")}
         />
         <div className="flex-1 min-w-0 overflow-y-auto">
           <TopBar
             title={TITLES[activeModule] ?? "BizFlow"}
             onOpenMobile={() => setMobileOpen(true)}
             user={user}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            activeModule={activeModule}
+            onBellClick={() => setShowNotifications((v) => !v)}
+            bellDot={false}
           />
           {activeModule === "dashboard" && <DashboardPage businessId={business.id} />}
-          {activeModule === "sales"     && <SalesHistoryPage businessId={business.id} role={role} />}
-          {activeModule === "products"  && <ProductsPage businessId={business.id} role={role} />}
-          {activeModule === "customers" && <CustomersPage businessId={business.id} role={role} />}
+          {activeModule === "sales"     && <SalesHistoryPage businessId={business.id} role={role} searchQuery={searchQuery} />}
+          {activeModule === "products"  && <ProductsPage businessId={business.id} role={role} searchQuery={searchQuery} />}
+          {activeModule === "customers" && <CustomersPage businessId={business.id} role={role} searchQuery={searchQuery} />}
           {activeModule === "expenses"  && <ExpensesPage businessId={business.id} role={role} />}
           {activeModule === "reports"   && <ReportsPage businessId={business.id} role={role} />}
           {activeModule === "staff"     && <StaffPage businessId={business.id} role={role} />}
           {activeModule === "settings"  && <SettingsPage role={role} />}
         </div>
       </div>
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+      {showNotifications && <NotificationsPanel onClose={() => setShowNotifications(false)} />}
     </div>
   );
 }

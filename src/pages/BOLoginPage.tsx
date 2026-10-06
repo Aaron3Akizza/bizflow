@@ -51,6 +51,44 @@ function Btn({ children, loading }: { children: React.ReactNode; loading: boolea
   );
 }
 
+function ForgotPasswordTip() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="text-xs text-gray-400 hover:text-green-600 hover:underline"
+      >
+        Forgot your password?
+      </button>
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
+          <div className="relative bg-white rounded-2xl w-full max-w-sm p-6 text-center shadow-xl">
+            <div className="h-12 w-12 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle size={20} className="text-amber-500" />
+            </div>
+            <h3 className="text-base font-bold text-gray-900 mb-2">Password Reset</h3>
+            <p className="text-sm text-gray-500 leading-relaxed mb-5">
+              BizFlow accounts use usernames, not email addresses, so self-service password reset isn't available.
+            </p>
+            <p className="text-sm text-gray-700 font-medium mb-5">
+              Contact your BizFlow administrator to reset your password.
+            </p>
+            <button
+              onClick={() => setOpen(false)}
+              className="w-full rounded-lg bg-green-600 text-white px-4 py-2.5 text-sm font-medium hover:bg-green-700"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function BOLoginPage() {
   const navigate   = useNavigate();
   const location   = useLocation();
@@ -299,8 +337,13 @@ export default function BOLoginPage() {
         <Btn loading={loading}>Log in to BizFlow</Btn>
       </form>
 
+      {/* Forgot password */}
+      <div className="mt-3 text-center">
+        <ForgotPasswordTip />
+      </div>
+
       {/* Admin login link */}
-      <div className="mt-6 pt-5 border-t border-gray-100 text-center">
+      <div className="mt-4 pt-5 border-t border-gray-100 text-center">
         <Link to="/login" className="text-xs text-gray-400 hover:text-gray-600">
           Admin? Log in here →
         </Link>

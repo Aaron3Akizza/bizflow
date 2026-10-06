@@ -5,7 +5,7 @@ import { availableStock, listProducts, Product } from "../lib/inventory";
 import { CartItem, cartTotal, completeSale, createCustomer, Customer, getSale, SaleDetail as SaleDetailType, listCustomers, listSales, Sale, SalesFilter, updateSaleDueDate, voidSale } from "../lib/sales";
 import { useMoney, formatDateTime } from "../lib/format";
 
-type Props = { businessId: string; role: string | null; mode?: "history" | "new" };
+type Props = { businessId: string; role: string | null; mode?: "history" | "new"; searchQuery?: string };
 const canVoid = (role: string | null) => role === "owner" || role === "manager";
 
 function ProductPicker({ products, onAdd }: { products: Product[]; onAdd: (product: Product, deviceId?: string) => void }) {
@@ -210,14 +210,14 @@ function ReceiptView({ receipt }: { receipt: { id: string; receipt_number: strin
   );
 }
 
-export function SalesHistoryPage({ businessId, role }: Props) {
+export function SalesHistoryPage({ businessId, role, searchQuery = "" }: Props) {
   const money = useMoney();
   const navigate = useNavigate();
   const [sales, setSales] = useState<Sale[]>([]);
   const [selected, setSelected] = useState<SaleDetailType | null>(null);
   const [selectedLoading, setSelectedLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(searchQuery);
   const [statusFilter, setStatusFilter] = useState("all");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -225,6 +225,9 @@ export function SalesHistoryPage({ businessId, role }: Props) {
   const [loading, setLoading] = useState(true);
   const [offset, setOffset] = useState(0);
   const PAGE = 50;
+
+  // Sync topbar search into local query state
+  useEffect(() => { setQuery(searchQuery); }, [searchQuery]);
 
   const load = useCallback(async (newOffset = 0) => {
     setLoading(true);
