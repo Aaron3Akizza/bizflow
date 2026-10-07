@@ -1,4 +1,4 @@
-# BizFlow Development Status
+# BizRise Development Status
 
 ## Implemented
 

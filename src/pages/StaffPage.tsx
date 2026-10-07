@@ -64,10 +64,10 @@ function InviteModal({ businessId, onClose, onInvited }: { businessId: string; o
         ) : (
           <div className="flex flex-col gap-4">
             <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-700">
-              The person must already have a BizFlow account (registered at <strong>/get-started</strong>) and be approved by the admin before you can add them.
+              The person must already have a BizRise account (registered at <strong>/get-started</strong>) and be approved by the admin before you can add them.
             </div>
             <label className="block text-sm">
-              <span className="block font-medium text-gray-700 mb-1.5">Their BizFlow username</span>
+              <span className="block font-medium text-gray-700 mb-1.5">Their BizRise username</span>
               <input
                 type="text"
                 value={username}
@@ -180,7 +180,7 @@ export default function StaffPage({ businessId, role: myRole }: Props) {
         <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
           <UserCog size={24} className="mx-auto text-gray-300 mb-3" />
           <p className="text-sm font-semibold text-gray-900">No staff yet.</p>
-          <p className="text-sm text-gray-500 mt-1">Invite team members to give them access to BizFlow.</p>
+          <p className="text-sm text-gray-500 mt-1">Invite team members to give them access to BizRise.</p>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">

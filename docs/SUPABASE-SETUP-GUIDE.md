@@ -1,4 +1,4 @@
-# Connecting BizFlow to Supabase
+# Connecting BizRise to Supabase
 
 This guide walks you through everything from creating your Supabase project to having a fully working app. Follow the steps in order.
 
@@ -8,7 +8,7 @@ This guide walks you through everything from creating your Supabase project to h
 
 1. Go to [supabase.com](https://supabase.com) and sign in (or create a free account).
 2. Click **New project**.
-3. Give it a name like `bizflow`, choose your region (pick the closest one to Uganda — `eu-west-2` London or `ap-southeast-1` Singapore are good choices), and set a strong database password. Save that password somewhere safe.
+3. Give it a name like `bizrise`, choose your region (pick the closest one to Uganda — `eu-west-2` London or `ap-southeast-1` Singapore are good choices), and set a strong database password. Save that password somewhere safe.
 4. Wait about 2 minutes for the project to finish setting up.
 
 ---
@@ -22,12 +22,12 @@ This guide walks you through everything from creating your Supabase project to h
 
 ---
 
-## Step 3 — Add environment variables to BizFlow
+## Step 3 — Add environment variables to BizRise
 
-In your BizFlow project folder, there is a file called `.env.example`. Copy it to `.env`:
+In your BizRise project folder, there is a file called `.env.example`. Copy it to `.env`:
 
 ```
-# In your BizFlow folder, run:
+# In your BizRise folder, run:
 copy .env.example .env
 ```
 
@@ -46,7 +46,7 @@ Save the file. Never share this file or commit it to git (it is already in `.git
 
 You need to run 4 SQL files against your Supabase database **in this exact order**:
 
-1. `db/bizflow_schema.sql` — users, businesses, roles
+1. `db/bizrise_schema.sql` — users, businesses, roles
 2. `db/phase2_products_inventory.sql` — products, devices, stock movements
 3. `db/phase3_sales.sql` — customers, sales, payments, receipts
 4. `db/phase4_customers_expenses.sql` — expenses table, customer notes
@@ -57,7 +57,7 @@ You need to run 4 SQL files against your Supabase database **in this exact order
 
 1. In your Supabase dashboard, click **SQL Editor** in the left sidebar.
 2. Click **New query**.
-3. Open `db/bizflow_schema.sql` in a text editor, copy all the content, paste it into the SQL Editor, and click **Run**.
+3. Open `db/bizrise_schema.sql` in a text editor, copy all the content, paste it into the SQL Editor, and click **Run**.
 4. Wait for it to say "Success". If you see an error, read it — most errors at this stage are about running the same migration twice (safe to ignore if it says "already exists").
 5. Repeat for each of the other 3 files in order.
 
@@ -74,7 +74,7 @@ supabase login
 supabase link --project-ref your-project-ref
 
 # Run each file
-supabase db execute --file db/bizflow_schema.sql
+supabase db execute --file db/bizrise_schema.sql
 supabase db execute --file db/phase2_products_inventory.sql
 supabase db execute --file db/phase3_sales.sql
 supabase db execute --file db/phase4_customers_expenses.sql
@@ -90,7 +90,7 @@ supabase db execute --file db/phase4_customers_expenses.sql
 4. Under **Redirect URLs**, add:
    - `http://localhost:5173/login`
    - `http://localhost:5173/login?mode=update-password`
-5. Under **Email Templates**, you can customise the confirmation and password reset emails to say "BizFlow" instead of "Supabase".
+5. Under **Email Templates**, you can customise the confirmation and password reset emails to say "BizRise" instead of "Supabase".
 
 ---
 
@@ -100,7 +100,7 @@ supabase db execute --file db/phase4_customers_expenses.sql
 npm run dev
 ```
 
-Open `http://localhost:5173`. You should see the BizFlow landing page.
+Open `http://localhost:5173`. You should see the BizRise landing page.
 
 **Test this checklist in order:**
 

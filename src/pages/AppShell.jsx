@@ -80,7 +80,7 @@ function Sidebar({ active, onSelect, mobileOpen, onCloseMobile, user, business, 
           <TrendingUp className="text-white" strokeWidth={2.25} size={18} />
         </div>
         <div>
-          <span className="text-white text-base font-bold tracking-tight">BizFlow</span>
+          <span className="text-white text-base font-bold tracking-tight">BizRise</span>
           {isDemo && (
             <span className="ml-2 text-[10px] font-semibold bg-amber-500 text-white px-1.5 py-0.5 rounded">
               DEMO
@@ -251,10 +251,10 @@ function HelpModal({ onClose }) {
           <button onClick={onClose} aria-label="Close"><X size={18} className="text-gray-400" /></button>
         </div>
         <div className="flex flex-col gap-3 text-sm text-gray-600">
-          <p>Need help using BizFlow? Here's how to get support:</p>
+          <p>Need help using BizRise? Here's how to get support:</p>
           <div className="bg-green-50 border border-green-100 rounded-xl p-4 flex flex-col gap-2">
             <p className="font-semibold text-gray-800">Contact your admin</p>
-            <p className="text-xs text-gray-500">Reach out to your BizFlow administrator for account issues, password resets, or access problems.</p>
+            <p className="text-xs text-gray-500">Reach out to your BizRise administrator for account issues, password resets, or access problems.</p>
           </div>
           <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 flex flex-col gap-2">
             <p className="font-semibold text-gray-800">Quick tips</p>
@@ -303,7 +303,7 @@ function NotificationsPanel({ onClose }) {
    ROOT SHELL
    ========================================================= */
 
-export default function BizFlowApp() {
+export default function BizRiseApp() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -364,7 +364,7 @@ export default function BizFlowApp() {
         />
         <div className="flex-1 min-w-0 overflow-y-auto">
           <TopBar
-            title={TITLES[activeModule] ?? "BizFlow"}
+            title={TITLES[activeModule] ?? "BizRise"}
             onOpenMobile={() => setMobileOpen(true)}
             user={user}
             searchQuery={searchQuery}

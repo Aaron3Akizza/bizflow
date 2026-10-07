@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { type ReactNode } from "react";
 import LandingPage from "./pages/LandingPage";
-import BizFlowApp from "./pages/AppShell";
+import BizRiseApp from "./pages/AppShell";
 import { AuthPage } from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import AdminPage from "./pages/AdminPage";
@@ -11,7 +11,7 @@ import { useAdmin } from "./context/AdminContext";
 import { NewSalePage } from "./pages/SalesPage";
 
 // ─── Shared loading screen ────────────────────────────────────────────────────
-function LoadingScreen({ message = "Loading BizFlow..." }: { message?: string }) {
+function LoadingScreen({ message = "Loading BizRise..." }: { message?: string }) {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
@@ -86,7 +86,7 @@ function PendingRoute() {
               <polyline points="16 7 22 7 22 13" />
             </svg>
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
 
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
@@ -102,13 +102,13 @@ function PendingRoute() {
             <h1 className="text-xl font-bold text-gray-900 mb-2">Awaiting Approval</h1>
             <p className="text-sm text-gray-600 leading-relaxed mb-4">
               {username && <><strong className="text-gray-900">{username}</strong>, your </>}
-              account is pending. The BizFlow administrator will review and grant you access.
+              account is pending. The BizRise administrator will review and grant you access.
             </p>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left mb-6">
               <p className="text-xs font-semibold text-amber-800 mb-2">What happens next?</p>
               <ul className="text-xs text-amber-700 space-y-1.5">
                 <li>• The admin reviews your registration</li>
-                <li>• Once approved, log in to access your BizFlow dashboard</li>
+                <li>• Once approved, log in to access your BizRise dashboard</li>
                 <li>• Check back after you receive notification</li>
               </ul>
             </div>
@@ -156,7 +156,7 @@ export default function App() {
 
         {/* ── Business Owner dashboard ── */}
         <Route path="/app/sales/new" element={<ProtectedRoute><NewSaleRoute /></ProtectedRoute>} />
-        <Route path="/app/*"         element={<ProtectedRoute><BizFlowApp /></ProtectedRoute>} />
+        <Route path="/app/*"         element={<ProtectedRoute><BizRiseApp /></ProtectedRoute>} />
 
         {/* ── Catch-all ── */}
         <Route path="*" element={<Navigate to="/" replace />} />

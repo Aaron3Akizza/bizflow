@@ -1,5 +1,5 @@
 /**
- * BizFlow Admin Dashboard
+ * BizRise Admin Dashboard
  * ========================
  * For the platform owner (super admin) only.
  * Accessible at /admin
@@ -522,7 +522,7 @@ export default function AdminPage() {
           <div className="h-7 w-7 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp size={14} strokeWidth={2.5} className="text-white" />
           </div>
-          <span className="font-bold tracking-tight">BizFlow</span>
+          <span className="font-bold tracking-tight">BizRise</span>
           <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 border border-amber-500/40 text-amber-400">
             Admin
           </span>

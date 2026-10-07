@@ -13,7 +13,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 
-const EMAIL_DOMAIN = "users.bizflow.internal";
+const EMAIL_DOMAIN = "users.bizrise.internal";
 function makeEmail(u: string) { return `${u.trim().toLowerCase()}@${EMAIL_DOMAIN}`; }
 function isValidUsername(v: string) { return /^[a-zA-Z0-9_]{3,30}$/.test(v.trim()); }
 
@@ -26,7 +26,7 @@ function Shell({ children, footer }: { children: React.ReactNode; footer?: React
           <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.25} />
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
 
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
@@ -71,10 +71,10 @@ function ForgotPasswordTip() {
             </div>
             <h3 className="text-base font-bold text-gray-900 mb-2">Password Reset</h3>
             <p className="text-sm text-gray-500 leading-relaxed mb-5">
-              BizFlow accounts use usernames, not email addresses, so self-service password reset isn't available.
+              BizRise accounts use usernames, not email addresses, so self-service password reset isn't available.
             </p>
             <p className="text-sm text-gray-700 font-medium mb-5">
-              Contact your BizFlow administrator to reset your password.
+              Contact your BizRise administrator to reset your password.
             </p>
             <button
               onClick={() => setOpen(false)}
@@ -123,7 +123,7 @@ export default function BOLoginPage() {
     return (
       <Shell>
         <div className="text-center">
-          <h1 className="text-xl font-bold text-gray-900 mb-3">BizFlow Demo</h1>
+          <h1 className="text-xl font-bold text-gray-900 mb-3">BizRise Demo</h1>
           <p className="text-sm text-gray-500 mb-6">No account needed. Click below to explore.</p>
           <button onClick={() => navigate("/app", { replace: true })}
             className="inline-flex items-center justify-center gap-2 w-full rounded-lg bg-green-600 text-white px-4 py-3 text-sm font-semibold hover:bg-green-700">
@@ -146,14 +146,14 @@ export default function BOLoginPage() {
           </div>
           <h1 className="text-xl font-bold text-gray-900 mb-2">Registration Submitted!</h1>
           <p className="text-sm text-gray-600 leading-relaxed mb-4">
-            Welcome, <strong className="text-gray-900">{pending}</strong>! Your account is registered and waiting for the BizFlow administrator to grant you access.
+            Welcome, <strong className="text-gray-900">{pending}</strong>! Your account is registered and waiting for the BizRise administrator to grant you access.
           </p>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left mb-6">
             <p className="text-xs font-semibold text-amber-800 mb-2">What happens next?</p>
             <ul className="text-xs text-amber-700 space-y-1.5">
               <li>• The admin reviews your registration</li>
               <li>• Once approved, come back and log in</li>
-              <li>• You'll have full access to your BizFlow dashboard</li>
+              <li>• You'll have full access to your BizRise dashboard</li>
             </ul>
           </div>
           <button onClick={async () => { await signOut(); setPending(null); navigate("/bo-login", { replace: true }); }}
@@ -169,7 +169,7 @@ export default function BOLoginPage() {
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!supabase) { setError("BizFlow is not connected."); return; }
+    if (!supabase) { setError("BizRise is not connected."); return; }
     if (!isValidUsername(username)) { setError("Username: 3–30 characters, letters, numbers and underscores only."); return; }
     if (available === false) { setError("That username is already taken. Choose another."); return; }
     if (password.length < 8) { setError("Password must be at least 8 characters."); return; }
@@ -200,7 +200,7 @@ export default function BOLoginPage() {
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!supabase) { setError("BizFlow is not connected."); return; }
+    if (!supabase) { setError("BizRise is not connected."); return; }
     if (!username.trim()) { setError("Please enter your username."); return; }
     if (!password) { setError("Please enter your password."); return; }
     setLoading(true);
@@ -221,10 +221,10 @@ export default function BOLoginPage() {
       if (status === "approved") {
         navigate("/app", { replace: true });
       } else if (status === "suspended") {
-        setError("Your account has been suspended. Contact the BizFlow administrator.");
+        setError("Your account has been suspended. Contact the BizRise administrator.");
         await supabase.auth.signOut();
       } else if (status === "revoked") {
-        setError("Your access has been revoked. Contact the BizFlow administrator.");
+        setError("Your access has been revoked. Contact the BizRise administrator.");
         await supabase.auth.signOut();
       } else {
         setPending(username.trim());
@@ -334,7 +334,7 @@ export default function BOLoginPage() {
           </div>
         </div>
 
-        <Btn loading={loading}>Log in to BizFlow</Btn>
+        <Btn loading={loading}>Log in to BizRise</Btn>
       </form>
 
       {/* Forgot password */}

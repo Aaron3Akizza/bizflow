@@ -21,7 +21,7 @@ class ErrorBoundary extends React.Component<
     if (this.state.error) {
       return (
         <div style={{ padding: "40px", fontFamily: "monospace", background: "#fff1f2", minHeight: "100vh" }}>
-          <h2 style={{ color: "#dc2626" }}>BizFlow startup error</h2>
+          <h2 style={{ color: "#dc2626" }}>BizRise startup error</h2>
           <p style={{ color: "#7f1d1d", marginBottom: "16px" }}>
             Something crashed while loading. Please share this with the developer.
           </p>

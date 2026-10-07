@@ -1,5 +1,5 @@
 -- =============================================================================
--- BizFlow Phase 8: Platform Admin
+-- BizRise Phase 8: Platform Admin
 -- Safe to run multiple times (idempotent).
 -- Run AFTER phases 1–7.
 --

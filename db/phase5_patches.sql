@@ -1,4 +1,4 @@
--- BizFlow Phase 5: Patch migrations.
+-- BizRise Phase 5: Patch migrations.
 -- Safe to run multiple times — all statements use IF NOT EXISTS / IF EXISTS / DO blocks.
 -- Can be run BEFORE or AFTER phase4 — the expenses-dependent parts are guarded.
 --

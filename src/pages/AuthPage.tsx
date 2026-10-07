@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
 
 // Internal email domain — never shown to users
-const EMAIL_DOMAIN = "users.bizflow.internal";
+const EMAIL_DOMAIN = "users.bizrise.internal";
 
 function makeEmail(username: string) {
   return `${username.trim().toLowerCase()}@${EMAIL_DOMAIN}`;
@@ -24,7 +24,7 @@ function AuthShell({ children, footer }: { children: React.ReactNode; footer?: R
           <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.25} />
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="h-1 bg-gradient-to-r from-green-600 via-green-400 to-emerald-500" />
@@ -61,13 +61,13 @@ function PendingScreen({ username, onSignOut }: { username: string; onSignOut: (
         <h1 className="text-xl font-bold text-gray-900 mb-2">Awaiting Approval</h1>
         <p className="text-sm text-gray-600 leading-relaxed mb-4">
           Hi <strong className="text-gray-900">{username}</strong>, your account has been created.
-          The BizFlow administrator will grant you access shortly.
+          The BizRise administrator will grant you access shortly.
         </p>
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left mb-6">
           <p className="text-xs font-semibold text-amber-800 mb-2">What happens next?</p>
           <ul className="text-xs text-amber-700 space-y-1.5">
             <li>• The admin will review your registration</li>
-            <li>• Once approved, you can log back in and use BizFlow</li>
+            <li>• Once approved, you can log back in and use BizRise</li>
             <li>• Try logging in again after you have been notified</li>
           </ul>
         </div>
@@ -123,7 +123,7 @@ export function AuthPage() {
           <div className="h-14 w-14 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mx-auto mb-4">
             <TrendingUp size={24} className="text-amber-600" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900 mb-1">BizFlow Demo</h1>
+          <h1 className="text-xl font-bold text-gray-900 mb-1">BizRise Demo</h1>
           <p className="text-sm text-gray-500 mb-6 leading-relaxed">
             No account needed in demo mode. Click below to explore with sample data.
           </p>
@@ -146,7 +146,7 @@ export function AuthPage() {
     e.preventDefault();
     setError("");
 
-    if (!configured || !supabase) { setError("BizFlow is not connected."); return; }
+    if (!configured || !supabase) { setError("BizRise is not connected."); return; }
     if (!isValidUsername(username)) { setError("Username must be 3–30 characters, letters, numbers and underscores only."); return; }
     if (available === false) { setError("That username is already taken. Choose another."); return; }
     if (password.length < 8) { setError("Password must be at least 8 characters."); return; }
@@ -196,7 +196,7 @@ export function AuthPage() {
     e.preventDefault();
     setError("");
 
-    if (!configured || !supabase) { setError("BizFlow is not connected."); return; }
+    if (!configured || !supabase) { setError("BizRise is not connected."); return; }
     if (!username.trim()) { setError("Please enter your username."); return; }
     if (!password) { setError("Please enter your password."); return; }
 
@@ -243,10 +243,10 @@ export function AuthPage() {
         const { data: isAdminData } = await supabase.rpc("is_platform_admin");
         navigate(isAdminData ? "/admin" : "/app", { replace: true });
       } else if (statusData === "suspended") {
-        setError("Your account has been suspended. Please contact the BizFlow administrator.");
+        setError("Your account has been suspended. Please contact the BizRise administrator.");
         await supabase.auth.signOut();
       } else if (statusData === "revoked") {
-        setError("Your access has been revoked. Please contact the BizFlow administrator.");
+        setError("Your access has been revoked. Please contact the BizRise administrator.");
         await supabase.auth.signOut();
       } else {
         // Pending
@@ -275,7 +275,7 @@ export function AuthPage() {
       }
     >
       <h1 className="text-xl font-bold text-gray-900 mb-1">
-        {mode === "signup" ? "Create your account" : "Log in to BizFlow"}
+        {mode === "signup" ? "Create your account" : "Log in to BizRise"}
       </h1>
       <p className="text-sm text-gray-500 mb-6">
         {mode === "signup"
@@ -418,7 +418,7 @@ export function SetupPage() {
           <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.25} />
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="h-1 bg-gradient-to-r from-green-600 via-green-400 to-emerald-500" />
@@ -457,7 +457,7 @@ export function SetupPage() {
               </label>
               <button type="submit" disabled={loading}
                 className="inline-flex items-center justify-center gap-2 font-medium rounded-lg px-4 py-2.5 text-sm bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 w-full mt-1">
-                {loading ? "Setting up…" : <>Continue to BizFlow <ArrowRight size={16} /></>}
+                {loading ? "Setting up…" : <>Continue to BizRise <ArrowRight size={16} /></>}
               </button>
             </form>
           </div>

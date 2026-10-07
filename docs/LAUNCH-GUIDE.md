@@ -1,4 +1,4 @@
-# BizFlow — Complete Launch Guide
+# BizRise — Complete Launch Guide
 
 Everything you need to go from code on your computer to a live system
 that 10 clients can use, with an admin dashboard and a custom domain.
@@ -15,7 +15,7 @@ You need the standard **anon/public** key.
 1. Go to **supabase.com** → open your project
 2. Go to **Project Settings → API**
 3. Copy the value under **"anon public"** — it starts with `eyJ`
-4. Open `C:\Users\Akizza Aaron\Desktop\bizflow\.env` and update it:
+4. Open `C:\Users\Akizza Aaron\Desktop\bizrise\.env` and update it:
 
 ```env
 VITE_SUPABASE_URL=https://qqzklokmkxgbfdqkmkig.supabase.co
@@ -33,7 +33,7 @@ Copy the full content of each file, paste it, click **Run**.
 
 | Order | File | What it does |
 |---|---|---|
-| 1 | `db/bizflow_schema.sql` | Users, businesses, roles, auth |
+| 1 | `db/bizrise_schema.sql` | Users, businesses, roles, auth |
 | 2 | `db/phase2_products_inventory.sql` | Products, devices, stock |
 | 3 | `db/phase3_sales.sql` | Sales, receipts, payments |
 | 4 | `db/phase4_customers_expenses.sql` | Customers, expenses |
@@ -58,7 +58,7 @@ from auth.users
 where email = 'your-email@example.com';
 ```
 
-After this, when you log in to BizFlow you will see **"Platform Admin"**
+After this, when you log in to BizRise you will see **"Platform Admin"**
 in the sidebar. Going to `/admin` shows the full dashboard.
 
 ---
@@ -149,7 +149,7 @@ Edit profile → Log out → Log back in
 | **Google Domains** (now Squarespace) | ~$12 USD | Clean, reliable |
 | **Africa-specific: Webhosting.Africa** | Varies | Local support |
 
-**Suggested domain:** `bizflow.app` / `bizflow.ug` / `mybizflow.com`
+**Suggested domain:** `bizrise.app` / `bizrise.ug` / `mybizrise.com`
 
 `.ug` domains (Uganda ccTLD) cost ~$30–50/yr but make the brand local.
 `.com` is the most professional and globally recognized.
@@ -160,7 +160,7 @@ Edit profile → Log out → Log back in
 
 1. Buy your domain from any registrar above
 2. In Vercel → **Settings → Domains → Add domain**
-3. Type your domain (e.g. `bizflow.app`)
+3. Type your domain (e.g. `bizrise.app`)
 4. Vercel gives you DNS records to add — typically:
    - An **A record** pointing to Vercel's IP, OR
    - A **CNAME record** pointing to `cname.vercel-dns.com`
@@ -301,7 +301,7 @@ where email = 'your-email@example.com';
 ```
 
 After running this:
-1. Log in to BizFlow normally
+1. Log in to BizRise normally
 2. You will see **"Platform Admin"** link in the sidebar
 3. Click it or go to `/admin` — full admin dashboard
 4. You can manage all client businesses, change subscription status, suspend accounts
@@ -312,11 +312,11 @@ After running this:
 
 ### What a client does
 
-1. Visits your BizFlow URL (Vercel URL or custom domain)
+1. Visits your BizRise URL (Vercel URL or custom domain)
 2. Clicks **Start free trial** on the landing page
 3. Fills in name, email, password → clicks **Create account**
 4. Receives a verification email → clicks the link
-5. Gets redirected to BizFlow → sets up their business (name, currency, etc.)
+5. Gets redirected to BizRise → sets up their business (name, currency, etc.)
 6. Immediately has access to their full dashboard
 
 ### What you do as admin
@@ -331,7 +331,7 @@ After running this:
 
 When a client signs up, send them this message:
 
-> "Thank you for registering on BizFlow!
+> "Thank you for registering on BizRise!
 > To activate your account, send UGX [amount] to Mobile Money number [your number].
 > Use your business name as the reference.
 > Your account will be activated within 24 hours of payment.
@@ -373,4 +373,4 @@ After the first 10 clients are live and paying:
 
 ---
 
-*Document generated: $(date). BizFlow — Run your business. Grow your profit.*
+*Document generated: $(date). BizRise — Run your business. Grow your profit.*

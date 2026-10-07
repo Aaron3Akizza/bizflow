@@ -13,7 +13,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.25} />
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="h-1 bg-gradient-to-r from-green-600 via-green-400 to-emerald-500" />
@@ -186,7 +186,7 @@ export default function AuthCallbackPage() {
           <div className="mt-6 pt-5 border-t border-gray-100">
             <p className="text-xs text-gray-400 leading-relaxed">
               Still having trouble? Contact{" "}
-              <strong className="text-gray-600">BizFlow Support</strong> or ask
+              <strong className="text-gray-600">BizRise Support</strong> or ask
               your system administrator to check your account.
             </p>
           </div>

@@ -1,5 +1,5 @@
--- BizFlow Phase 2: Products and inventory.
--- Requires db/bizflow_schema.sql to be applied first.
+-- BizRise Phase 2: Products and inventory.
+-- Requires db/bizrise_schema.sql to be applied first.
 
 create table if not exists public.products (
   id uuid primary key default gen_random_uuid(),

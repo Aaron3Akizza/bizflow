@@ -11,7 +11,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           <div className="h-9 w-9 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.25} />
           </div>
-          <span className="text-xl font-bold text-gray-900 tracking-tight">BizFlow</span>
+          <span className="text-xl font-bold text-gray-900 tracking-tight">BizRise</span>
         </div>
         <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="h-1 bg-gradient-to-r from-green-600 via-green-400 to-emerald-500" />
@@ -82,7 +82,7 @@ export default function ResendConfirmationPage() {
           </div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Check Your Inbox</h2>
           <p className="text-sm text-gray-600 leading-relaxed mb-4">
-            If <strong className="text-gray-900">{email}</strong> has a BizFlow account
+            If <strong className="text-gray-900">{email}</strong> has a BizRise account
             waiting for confirmation, a new verification email has been sent.
           </p>
 

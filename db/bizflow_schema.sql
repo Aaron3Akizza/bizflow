@@ -1,4 +1,4 @@
--- BizFlow backend foundation for Supabase PostgreSQL.
+-- BizRise backend foundation for Supabase PostgreSQL.
 -- Apply this file in the Supabase SQL editor or through migrations.
 -- Phase 1 only: profiles, businesses, and business memberships.
 

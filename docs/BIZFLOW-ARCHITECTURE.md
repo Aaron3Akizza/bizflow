@@ -1,6 +1,6 @@
-# BizFlow Architecture
+# BizRise Architecture
 
-BizFlow is a React 18 + TypeScript/Vite application for small phone and phone-accessory shops. Tailwind CSS supplies the existing design system and `react-router-dom` supplies routing.
+BizRise is a React 18 + TypeScript/Vite application for small phone and phone-accessory shops. Tailwind CSS supplies the existing design system and `react-router-dom` supplies routing.
 
 ## Frontend
 
@@ -16,7 +16,7 @@ BizFlow is a React 18 + TypeScript/Vite application for small phone and phone-ac
 
 ## Database and security
 
-`db/bizflow_schema.sql` is the reproducible Phase 1 Supabase schema. It creates:
+`db/bizrise_schema.sql` is the reproducible Phase 1 Supabase schema. It creates:
 
 - `profiles`, linked one-to-one with `auth.users`
 - `businesses`, with an owner and configurable currency (default `UGX`)
@@ -30,4 +30,4 @@ The Phase 3 customer table is intentionally minimal. Full debt management, later
 
 ## Operations
 
-Apply migrations in this order: `db/bizflow_schema.sql`, `db/phase2_products_inventory.sql`, then `db/phase3_sales.sql`. Copy `.env.example` to a local env file, set the two Supabase values, and run `npm run dev`. `npm run build` is the required production validation command. No automated test runner is configured yet.
+Apply migrations in this order: `db/bizrise_schema.sql`, `db/phase2_products_inventory.sql`, then `db/phase3_sales.sql`. Copy `.env.example` to a local env file, set the two Supabase values, and run `npm run dev`. `npm run build` is the required production validation command. No automated test runner is configured yet.

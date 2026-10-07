@@ -1,4 +1,4 @@
--- BizFlow Phase 3: sales, checkout, customers, payments, receipts and voids.
+-- BizRise Phase 3: sales, checkout, customers, payments, receipts and voids.
 -- Requires the Phase 1 and Phase 2 SQL files.
 
 create table if not exists public.customers (

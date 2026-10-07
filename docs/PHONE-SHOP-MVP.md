@@ -1,12 +1,12 @@
-# BizFlow — Phone Shop MVP Requirements
+# BizRise — Phone Shop MVP Requirements
 
-This document records the exact product behavior agreed for BizFlow's first
+This document records the exact product behavior agreed for BizRise's first
 release. It is the reference for what "correct" looks like when building the
 Sales, Products, and Customers modules. Everything described here is
 **PLANNED** unless the note next to it says otherwise — cross-check against
 `docs/BIZFLOW-STATUS.md` before assuming something is built.
 
-BizFlow v1 is scoped specifically to **small phone and phone-accessory
+BizRise v1 is scoped specifically to **small phone and phone-accessory
 shops**. Brands and product names below (Samsung, Tecno, Infinix, iTel,
 Xiaomi, Redmi, Oppo, Nokia, Apple, Oraimo, etc.) are examples for demo data
 only — they must never be hardcoded into application logic. The merchant
@@ -64,7 +64,7 @@ movement types:
 
 Each movement records: product, quantity, reason, date, and the user
 responsible. See `stock_movements` in `docs/BIZFLOW-ARCHITECTURE.md` /
-`db/bizflow_schema.sql` for the planned schema.
+`db/bizrise_schema.sql` for the planned schema.
 
 Example of the expected behavior once Sales is implemented:
 
@@ -94,7 +94,7 @@ in the planned schema — a sale can accumulate multiple payments over time).
 
 When the product being sold uses `device` tracking, the cashier selects the
 **specific unit** (by IMEI) being sold, not just a quantity. That IMEI must
-appear on the resulting receipt. This is one of BizFlow's differentiating
+appear on the resulting receipt. This is one of BizRise's differentiating
 capabilities for phone shops and should not be simplified away.
 
 ---
@@ -186,7 +186,7 @@ after the sale).
 
 ## Alerts and semantic color use
 
-Use BizFlow's established semantic colors — never decoratively:
+Use BizRise's established semantic colors — never decoratively:
 
 - **Green** — growth, success, healthy activity.
 - **Amber** — attention required (low stock, upcoming debt payment).

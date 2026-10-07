@@ -1,4 +1,4 @@
--- BizFlow Phase 6: Inventory fixes.
+-- BizRise Phase 6: Inventory fixes.
 -- Safe to run multiple times.
 -- Fixes:
 --   1. create_product_with_devices now reads per-device buying/selling prices from device_rows

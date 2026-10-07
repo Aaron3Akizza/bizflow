@@ -1,4 +1,4 @@
--- BizFlow Phase 4: Expenses table and customer profile enhancements.
+-- BizRise Phase 4: Expenses table and customer profile enhancements.
 -- Requires phases 1, 2, and 3 SQL files.
 
 -- Add notes column to customers if not present

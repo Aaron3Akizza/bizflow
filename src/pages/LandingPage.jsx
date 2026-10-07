@@ -22,7 +22,7 @@ import {
   PlayCircle,
 } from "lucide-react";
 // NOTE: `Clock` was previously imported here but never used — removed
-// during the Copilot-handoff stabilization pass (see docs/BIZFLOW-STATUS.md).
+// during the Copilot-handoff stabilization pass (see docs/BIZRISE-STATUS.md).
 
 /* ---------------------------------- */
 /* Small reusable building blocks     */
@@ -146,7 +146,7 @@ function Navbar() {
             <div className="h-8 w-8 rounded-lg bg-green-600 flex items-center justify-center">
               <TrendingUp className="h-[18px] w-[18px] text-white" strokeWidth={2.25} size={18} />
             </div>
-            <span className="text-lg font-bold text-gray-900 tracking-tight">BizFlow</span>
+            <span className="text-lg font-bold text-gray-900 tracking-tight">BizRise</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
@@ -258,7 +258,7 @@ function DashboardPreview() {
             <div className="h-6 w-6 rounded-md bg-green-600 flex items-center justify-center">
               <TrendingUp className="text-white" size={13} strokeWidth={2.5} />
             </div>
-            <span className="text-white text-sm font-bold">BizFlow</span>
+            <span className="text-white text-sm font-bold">BizRise</span>
           </div>
           <div className="flex flex-col gap-0.5 px-2">
             {sidebarItems.map((item) => (
@@ -384,7 +384,7 @@ function Hero() {
             <span className="text-green-600">Grow your profit.</span>
           </h1>
           <p className="mt-5 text-base text-gray-500 leading-relaxed max-w-lg">
-            BizFlow is the all-in-one operating system for small businesses. Manage
+            BizRise is the all-in-one operating system for small businesses. Manage
             sales, inventory, expenses, customers and reports — simple, smart, and powerful.
           </p>
 
@@ -420,7 +420,7 @@ function Hero() {
 }
 
 /* ---------------------------------- */
-/* Why businesses love BizFlow        */
+/* Why businesses love BizRise        */
 /* ---------------------------------- */
 
 function WhySection() {
@@ -436,7 +436,7 @@ function WhySection() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-12">
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Why businesses love BizFlow
+            Why businesses love BizRise
           </h2>
           <p className="mt-3 text-gray-500">
             Simple tools to help you save time, reduce stress, and make more money.
@@ -453,7 +453,7 @@ function WhySection() {
 }
 
 /* ---------------------------------- */
-/* How BizFlow works                  */
+/* How BizRise works                  */
 /* ---------------------------------- */
 
 function HowItWorks() {
@@ -466,7 +466,7 @@ function HowItWorks() {
   return (
     <section id="how-it-works" className="scroll-mt-20 max-w-7xl mx-auto px-6 lg:px-8 py-20">
       <div className="text-center max-w-xl mx-auto mb-14">
-        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">How BizFlow works</h2>
+        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">How BizRise works</h2>
         <p className="mt-3 text-gray-500">Get up and running in three simple steps.</p>
       </div>
       <div className="grid md:grid-cols-3 gap-8">
@@ -716,7 +716,7 @@ function Footer() {
               <div className="h-8 w-8 rounded-lg bg-green-600 flex items-center justify-center">
                 <TrendingUp className="h-4 w-4 text-white" strokeWidth={2.25} />
               </div>
-              <span className="text-lg font-bold text-gray-900">BizFlow</span>
+              <span className="text-lg font-bold text-gray-900">BizRise</span>
             </div>
             <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
               The all-in-one operating system for small businesses. Know your sales.
@@ -754,7 +754,7 @@ function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-gray-400">© 2026 BizFlow. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© 2026 BizRise. All rights reserved.</p>
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <ShieldCheck size={13} /> Built for small businesses in Uganda
           </div>
@@ -768,7 +768,7 @@ function Footer() {
 /* Page                               */
 /* ---------------------------------- */
 
-export default function BizFlowLanding() {
+export default function BizRiseLanding() {
   return (
     <div className="min-h-screen bg-white font-sans antialiased">
       <Navbar />

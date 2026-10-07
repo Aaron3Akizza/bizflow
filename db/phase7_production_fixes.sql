@@ -1,5 +1,5 @@
 -- =============================================================================
--- BizFlow Phase 7: Production fixes.
+-- BizRise Phase 7: Production fixes.
 -- Safe to run multiple times (idempotent).
 -- Run AFTER phases 1–6.
 -- =============================================================================

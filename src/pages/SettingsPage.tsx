@@ -294,7 +294,7 @@ function DangerZone() {
   const { signOut } = useAuth();
 
   return (
-    <Section title="Account" description="Sign out of BizFlow on this device.">
+    <Section title="Account" description="Sign out of BizRise on this device.">
       <button
         onClick={signOut}
         className="rounded-lg border border-red-200 text-red-600 px-4 py-2.5 text-sm font-medium hover:bg-red-50 transition-colors"
@@ -336,7 +336,7 @@ export default function SettingsPage({ role }: { role: string | null }) {
           <div>
             <p className="text-sm font-semibold text-amber-800">Complete your business setup</p>
             <p className="text-xs text-amber-700 mt-0.5">
-              Your business is using a placeholder name. Update it below to personalise your BizFlow account.
+              Your business is using a placeholder name. Update it below to personalise your BizRise account.
             </p>
           </div>
         </div>

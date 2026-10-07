@@ -3,7 +3,7 @@ node_modules
 
 # Build output
 dist
-BizFlow
+BizRise
 
 # Environment secrets — NEVER commit these
 .env

@@ -13,7 +13,7 @@ export type StaffMember = {
 };
 
 const DEMO_STAFF: StaffMember[] = [
-  { id: "mem-001", user_id: "demo-user-001", role: "owner", is_active: true, created_at: new Date(Date.now() - 30 * 86400000).toISOString(), full_name: "Demo Owner", email: "demo@bizflow.app", phone: "+256 700 000 000" },
+  { id: "mem-001", user_id: "demo-user-001", role: "owner", is_active: true, created_at: new Date(Date.now() - 30 * 86400000).toISOString(), full_name: "Demo Owner", email: "demo@bizrise.app", phone: "+256 700 000 000" },
   { id: "mem-002", user_id: "demo-user-002", role: "cashier", is_active: true, created_at: new Date(Date.now() - 14 * 86400000).toISOString(), full_name: "Sarah Namukasa", email: "sarah@abc.com", phone: "+256 772 111 222" },
   { id: "mem-003", user_id: "demo-user-003", role: "inventory", is_active: false, created_at: new Date(Date.now() - 7 * 86400000).toISOString(), full_name: "Daniel Okello", email: "daniel@abc.com", phone: null },
 ];
@@ -49,7 +49,7 @@ export async function reactivateMember(memberId: string): Promise<void> {
 
 /**
  * Add a staff member to a business by their username.
- * The user must already have an approved BizFlow account.
+ * The user must already have an approved BizRise account.
  * Returns the display name of the added user on success.
  */
 export async function addStaffByUsername(businessId: string, username: string, role: string): Promise<string> {
@@ -67,7 +67,7 @@ export async function addStaffByUsername(businessId: string, username: string, r
     .maybeSingle();
 
   if (profileErr) throw profileErr;
-  if (!profile) throw new Error("No BizFlow account found for that username. Make sure they've registered first.");
+  if (!profile) throw new Error("No BizRise account found for that username. Make sure they've registered first.");
   if (profile.access_status !== "approved") throw new Error(`That account is not yet approved (status: ${profile.access_status}). The admin must approve them first.`);
 
   // Check they're not already a member

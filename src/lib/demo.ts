@@ -1,5 +1,5 @@
 /**
- * BizFlow Demo Mode
+ * BizRise Demo Mode
  * -----------------
  * In-memory mock data store. Used when Supabase is not configured or when
  * the user is in demo mode. Every module reads/writes from this store so
@@ -177,7 +177,7 @@ export const DEMO_MEMBERSHIP = {
 
 export const DEMO_USER = {
   id: DEMO_USER_ID,
-  email: "demo@bizflow.app",
+  email: "demo@bizrise.app",
   user_metadata: { full_name: "Demo Owner", phone: "+256 700 000 000" },
   app_metadata: {},
   aud: "authenticated",

@@ -1,4 +1,4 @@
-# BizFlow — Development Roadmap
+# BizRise — Development Roadmap
 
 This roadmap sequences the remaining work. Each phase should be tested,
 checked for regressions, and confirmed responsive before moving to the next.
@@ -12,7 +12,7 @@ lands (they should stay in sync with `docs/BIZFLOW-STATUS.md`).
 - [x] Login / signup / business setup screens (UI only, no real auth)
 - [ ] Real authentication (sign up, log in, log out, reset password) backed by `users`
 - [ ] Real business creation backed by `businesses` + `business_members`
-- [ ] Database foundation — apply `db/bizflow_schema.sql` to an actual database
+- [ ] Database foundation — apply `db/bizrise_schema.sql` to an actual database
 - [ ] Route-based navigation inside `/app/*` (currently local `useState`, not URL-driven)
 
 ## Phase 2 — Products
@@ -91,9 +91,9 @@ lands (they should stay in sync with `docs/BIZFLOW-STATUS.md`).
 foundation** — specifically:
 
 1. Decide and confirm the backend/database technology (Supabase/Postgres is
-   assumed throughout `db/bizflow_schema.sql`, but this has not been
+   assumed throughout `db/bizrise_schema.sql`, but this has not been
    formally decided — confirm before building).
-2. Apply `db/bizflow_schema.sql` to a real database instance.
+2. Apply `db/bizrise_schema.sql` to a real database instance.
 3. Replace the fake `authStep` state machine in `AppShell.jsx` with real
    sign-up/log-in calls, without changing the visual design of those
    screens.

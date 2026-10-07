@@ -1,4 +1,4 @@
-# BizFlow — Design System
+# BizRise — Design System
 
 This documents the visual system already implemented across
 `src/pages/LandingPage.jsx` and `src/pages/AppShell.jsx`. Treat this as the
@@ -165,4 +165,4 @@ Restrained: hover-state color/background transitions
 (`transition-colors duration-150`) and simple `transition-transform` on
 expand/collapse chevrons. No parallax, no floating elements, no constant
 motion. This is deliberate — see `docs/PHONE-SHOP-MVP.md` framing of
-BizFlow as calm, trustworthy business software.
+BizRise as calm, trustworthy business software.

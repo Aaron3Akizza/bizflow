@@ -114,7 +114,7 @@ export default function OwnerDashboard() {
           <div className="h-7 w-7 rounded-lg bg-green-600 flex items-center justify-center">
             <TrendingUp size={14} strokeWidth={2.5} className="text-white" />
           </div>
-          <span className="font-bold tracking-tight">BizFlow</span>
+          <span className="font-bold tracking-tight">BizRise</span>
           <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-green-600/20 border border-green-600/40 text-green-400">
             Owner
           </span>
@@ -284,7 +284,7 @@ export default function OwnerDashboard() {
         <div className="rounded-xl bg-gray-50 border border-gray-200 p-4">
           <p className="text-xs text-gray-500 leading-relaxed">
             <strong className="text-gray-700">Access is enforced at the database level.</strong>{" "}
-            A user with "Pending" status cannot access any BizFlow data even if they are logged in.
+            A user with "Pending" status cannot access any BizRise data even if they are logged in.
             Only "Approved" users can use the dashboard.
           </p>
         </div>

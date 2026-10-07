@@ -1,9 +1,9 @@
-# Copilot instructions — BizFlow
+# Copilot instructions — BizRise
 
 These instructions apply to any AI-assisted change in this repository
 (GitHub Copilot, Copilot Chat, or any other coding agent).
 
-1. **BizFlow is a SaaS application for small phone shops and phone-accessory
+1. **BizRise is a SaaS application for small phone shops and phone-accessory
    shops.** Every feature decision should be evaluated against that specific
    use case, not "businesses in general."
 

@@ -1,5 +1,5 @@
 -- =============================================================================
--- BizFlow Phase 9: Username-based signup + manual approval system
+-- BizRise Phase 9: Username-based signup + manual approval system
 -- Run AFTER phases 1–8.
 -- Safe to run multiple times (idempotent).
 -- =============================================================================

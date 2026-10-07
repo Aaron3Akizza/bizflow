@@ -1,5 +1,5 @@
 /**
- * Shared formatting utilities for BizFlow.
+ * Shared formatting utilities for BizRise.
  * All money values must flow through formatMoney() so the correct
  * currency symbol is displayed for every business.
  */
